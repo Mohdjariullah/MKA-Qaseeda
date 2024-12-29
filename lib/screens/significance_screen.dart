@@ -49,7 +49,7 @@ The translation of the Qasidah, its glossary and commentary was translated into 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Significance of Qaseeda'),
-        backgroundColor: Colors.amber.shade700,
+        backgroundColor: const Color.fromARGB(255, 2, 84, 206),
       ),
       body: Container(
         color: const Color(0xFFFFF8DC),

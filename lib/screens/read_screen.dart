@@ -46,7 +46,7 @@ class _ReadScreenState extends State<ReadScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Qaseeda - Read'),
-        backgroundColor: Colors.amber.shade700,
+        backgroundColor: const Color.fromARGB(255, 2, 84, 206),
       ),
       body: Container(
         color: const Color(0xFFFFF8DC),

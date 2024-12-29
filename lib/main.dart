@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/screens/read_screen.dart';
-import 'package:myapp/screens/significance_screen.dart';
-import 'package:myapp/screens/about_screen.dart';
+import 'package:Qaseeda/screens/read_screen.dart';
+import 'package:Qaseeda/screens/significance_screen.dart';
+import 'package:Qaseeda/screens/about_screen.dart';
+
 void main() {
-  runApp(const QaseedaApp());
-}
-
-class QaseedaApp extends StatelessWidget {
-  const QaseedaApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Qaseeda App',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
-      home: const HomePage(),
-    );
-  }
+  runApp(MaterialApp(
+    home: const HomePage(),
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+  ));
 }
 
 class HomePage extends StatelessWidget {
@@ -29,49 +19,49 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Qaseeda'),
-        centerTitle: true,
-        backgroundColor: Colors.amber.shade700,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFFDF5E6),
-          border: Border.all(color: Colors.amber, width: 3),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Qaseeda',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Roboto',
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background image
+          Image.asset(
+            'assets/homebg.png',
+            fit: BoxFit.cover,
+          ),
+          // Content overlay
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Title
+              Image.asset(
+                'assets/qaseeda.png',
+                width: 200, // Adjust width as needed
+                height: 100, // Adjust height as needed
+                fit: BoxFit.contain,
               ),
-            ),
-            const SizedBox(height: 20),
-            _buildButton(context, 'READ', Colors.amber),
-            _buildButton(context, 'SIGNIFICANCE', Colors.amber),
-            _buildButton(context, 'ABOUT', Colors.amber),
-            _buildButton(context, 'EXIT', Colors.amber),
-          ],
-        ),
+              const SizedBox(height: 40),
+              // Buttons
+              _buildButton(context, 'READ'),
+              _buildButton(context, 'SIGNIFICANCE'),
+              _buildButton(context, 'ABOUT'),
+              _buildButton(context, 'EXIT'),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildButton(BuildContext context, String text, Color color) {
+  Widget _buildButton(BuildContext context, String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: SizedBox(
         width: 200,
         height: 50,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: color,
+            backgroundColor: const Color.fromARGB(206, 0, 255, 98),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
           ),
           onPressed: () {
@@ -88,7 +78,8 @@ class HomePage extends StatelessWidget {
               case 'SIGNIFICANCE':
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignificanceScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const SignificanceScreen()),
                 );
                 break;
               case 'ABOUT':
