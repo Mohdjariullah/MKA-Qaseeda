@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:Qaseeda/screens/read_screen.dart';
-import 'package:Qaseeda/screens/significance_screen.dart';
-import 'package:Qaseeda/screens/about_screen.dart';
+import 'package:qaseeda/screens/read_screen.dart';
+import 'package:qaseeda/screens/significance_screen.dart';
+import 'package:qaseeda/screens/about_screen.dart';
 
 void main() {
   runApp(MaterialApp(
