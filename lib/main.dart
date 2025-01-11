@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:qaseeda/screens/home.dart';
 import 'package:qaseeda/screens/read_screen.dart';
 import 'package:qaseeda/screens/significance_screen.dart';
 import 'package:qaseeda/screens/about_screen.dart';
@@ -67,7 +67,10 @@ class HomePage extends StatelessWidget {
           onPressed: () {
             switch (text) {
               case 'EXIT':
-                SystemNavigator.pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const homescreen()),
+                );
                 break;
               case 'READ':
                 Navigator.push(

@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^1.0.3
   http: ^0.13.4
   url_launcher: ^6.3.1
+  just_audio: ^0.9.31
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,11 @@ flutter:
   assets:
     - assets/homebg.png
     - assets/qaseeda.png
+    - assets/homeborder.png
+    - assets/gradient.png
+    - assets/homelogo.png
+    # - assets/qaseeda.mp3
+    - assets/qaseeda_audio.mp3  # Add this line
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
