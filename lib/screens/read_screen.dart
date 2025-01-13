@@ -17,28 +17,25 @@ class _ReadScreenState extends State<ReadScreen> {
   bool isSearching = false;
   List<Verse> searchResults = [];
   final AudioPlayer audioPlayer = AudioPlayer();
+  bool isAudioInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    initAudioPlayer();
+    _initAudio();
     assert(verses.isNotEmpty, 'Verses data must not be empty');
   }
 
-  Future<void> initAudioPlayer() async {
+  Future<void> _initAudio() async {
     try {
       await audioPlayer.setAsset('assets/qaseeda_audio.mp3');
+      setState(() {
+        isAudioInitialized = true;
+      });
       print('Audio loaded successfully');
     } catch (e) {
-      print('Audio loading status: $e');
+      print('Audio initialization error: $e');
     }
-  }
-  
-
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    super.dispose();
   }
 
   void performSearch(String query) {
@@ -50,52 +47,63 @@ class _ReadScreenState extends State<ReadScreen> {
       }).toList();
     });
   }
+  // Add this method to stop audio when verse changes
+  void stopAudio() {
+    audioPlayer.pause();
+    setState(() {
+      isPlaying = false;
+    });
+  }
 
+  // Modify goToNextVerse
   void goToNextVerse() {
     setState(() {
       if (coupletNumber < verses.length) {
+        stopAudio(); // Stop audio before changing verse
         coupletNumber++;
       }
     });
   }
 
+  // Modify goToPreviousVerse
   void goToPreviousVerse() {
     setState(() {
       if (coupletNumber > 1) {
+        stopAudio(); // Stop audio before changing verse
         coupletNumber--;
       }
     });
   }
 
-  void togglePlayPause() async {
+  // Enhance togglePlayPauseAudio with better timing control
+  void togglePlayPauseAudio() async {
     final timestamp = verseTimestamps[coupletNumber];
-     
-    if (isPlaying) {
-      await audioPlayer.pause();
-    } else {
-      if (timestamp != null) {  // Added null check
-        await audioPlayer.seek(timestamp.start);
-        await audioPlayer.play();
-        
-        // Auto-stop at verse end
-        Future.delayed(timestamp.end - timestamp.start, () {
-          if (mounted && isPlaying) {
-            audioPlayer.pause();
-            setState(() {
-              isPlaying = false;
-            });
-          }
-        });
-      }
-    }
 
     setState(() {
       isPlaying = !isPlaying;
     });
+
+    if (!isPlaying) {
+      await audioPlayer.pause();
+    } else {
+      if (timestamp != null) {
+        await audioPlayer.seek(timestamp.start);
+        await audioPlayer.play();
+
+        // Schedule stop at exact end time
+        Future.delayed(timestamp.end - timestamp.start, () {
+          if (mounted && coupletNumber == coupletNumber) { // Check if verse hasn't changed
+            stopAudio();
+          }
+        });
+      }
+    }
   }
   @override
   Widget build(BuildContext context) {
-    final currentVerse = verses[coupletNumber - 1];
+    final currentVerse = coupletNumber <= verses.length
+        ? verses[coupletNumber - 1]
+        : Verse(arabic: '', english: '', urdu: '');
 
     return Scaffold(
       appBar: AppBar(
@@ -184,7 +192,6 @@ class _ReadScreenState extends State<ReadScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          // Add verse number at the top
                           Text(
                             'Verse $coupletNumber',
                             style: const TextStyle(
@@ -237,7 +244,8 @@ class _ReadScreenState extends State<ReadScreen> {
                       IconButton(
                         iconSize: 50,
                         icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-                        onPressed: togglePlayPause,
+                        onPressed:
+                            isAudioInitialized ? togglePlayPauseAudio : null,
                         tooltip: isPlaying ? 'Pause Verse' : 'Play Verse',
                       ),
                       IconButton(
@@ -317,5 +325,11 @@ class _ReadScreenState extends State<ReadScreen> {
               ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
   }
 }

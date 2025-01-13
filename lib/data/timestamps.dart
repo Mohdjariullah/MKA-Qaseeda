@@ -20,5 +20,9 @@ final Map<int, VerseTimestamp> verseTimestamps = {
     start: Duration(seconds: 35),
     end: Duration(seconds: 48),
   ),
-  // Continue for all 70 verses...
+  4: VerseTimestamp(
+    start: Duration(seconds: 49),
+    end: Duration(seconds: 62),
+  ),
+  // Add more verses with precise timestamps
 };
