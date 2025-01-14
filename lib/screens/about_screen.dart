@@ -53,7 +53,7 @@ class AboutScreen extends StatelessWidget {
                       ),
                       child: ClipOval(
                         child: Image.asset(
-                          'assets/qaseeda.png',
+                          'assets/applogo.jpg',
                           width: 120,
                           height: 120,
                           fit: BoxFit.cover,
