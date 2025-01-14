@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:qaseeda/data/verses.dart';
 import 'package:just_audio/just_audio.dart';
@@ -47,6 +49,7 @@ class _ReadScreenState extends State<ReadScreen> {
       }).toList();
     });
   }
+
   // Add this method to stop audio when verse changes
   void stopAudio() {
     audioPlayer.pause();
@@ -92,13 +95,15 @@ class _ReadScreenState extends State<ReadScreen> {
 
         // Schedule stop at exact end time
         Future.delayed(timestamp.end - timestamp.start, () {
-          if (mounted && coupletNumber == coupletNumber) { // Check if verse hasn't changed
+          if (mounted && coupletNumber == coupletNumber) {
+            // Check if verse hasn't changed
             stopAudio();
           }
         });
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final currentVerse = coupletNumber <= verses.length
@@ -187,48 +192,62 @@ class _ReadScreenState extends State<ReadScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Card(
-                    elevation: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Verse $coupletNumber',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: const BorderSide(color: Colors.amber, width: 2),
+                    ),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.white, Color(0xFFFFF8DC)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Verse $coupletNumber',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            currentVerse.arabic,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
+                            const SizedBox(height: 8),
+                            Text(
+                              currentVerse.arabic,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            currentVerse.urdu,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              height: 1.5,
+                            const SizedBox(height: 16),
+                            Text(
+                              currentVerse.urdu,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            currentVerse.english,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              height: 1.5,
+                            const SizedBox(height: 16),
+                            Text(
+                              currentVerse.english,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

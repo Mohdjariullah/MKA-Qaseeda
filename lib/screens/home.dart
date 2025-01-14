@@ -163,6 +163,7 @@ class _HomePageWidgetState extends State<homescreen> {
   Widget _buildButton(String text) {
     return ElevatedButton(
       onPressed: () {
+        // ignore: avoid_print
         print('Button pressed ...');
       },
       style: ElevatedButton.styleFrom(
@@ -186,3 +187,5 @@ class _HomePageWidgetState extends State<homescreen> {
     );
   }
 }
+
+// Make a starting effect
